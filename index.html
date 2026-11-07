@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔐 Password Generator PRO</h1>
+        <p class="subtitle">Bias-free random + Leak check + Professional error handling</p>
+
+        <div class="status-bar">
+            <span><span class="status-dot" id="statusCrypto"></span>Crypto API</span>
+            <span><span class="status-dot" id="statusPwned"></span>Pwned API</span>
+            <span><span class="status-dot" id="statusClipboard"></span>Clipboard</span>
+        </div>
+
+        <div class="output empty" id="output" onclick="copyPassword()">Click "Generate" to start</div>
+
+        <div class="actions">
+            <button class="btn-generate" id="generateBtn" onclick="generate()">Generate</button>
+            <button class="btn-copy" onclick="copyPassword()">📋 Copy</button>
+        </div>
+
+        <div class="section">
+            <label>Character Sets</label>
+            <div class="checkbox-group">
+                <label class="checkbox-item">
+                    <input type="checkbox" id="lowercase" checked> a-z
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="uppercase" checked> A-Z
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="digits" checked> 0-9
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="separators" checked> -_
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="symbols" checked> !@#$%
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="space"> Space
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="excludeSimilar"> Exclude similar (oO0lI1sS5)
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="excludeAmbiguous"> Exclude ambiguous ({}[]()/\'"`~,;:.<>)
+                </label>
+            </div>
+        </div>
+
+        <div class="section">
+            <label>Advanced Options</label>
+            <input type="text" class="input-text" id="includeChars" placeholder="Include chars (e.g., @#$)">
+            <div class="hint">These characters will be forced into the password</div>
+            <input type="text" class="input-text" id="excludeChars" placeholder="Exclude chars (e.g., abc123)">
+            <div class="hint">These characters will be ignored</div>
+        </div>
+
+        <div class="section">
+            <label>Password Length: <span id="lengthValue">16</span></label>
+            <input type="range" id="length" min="4" max="128" value="16" oninput="updateLength()">
+            <div class="range-info">
+                <span>4</span>
+                <span>128</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <label>Number of Passwords: <span id="countValue">1</span></label>
+            <input type="range" id="count" min="1" max="100" value="1" oninput="updateCount()">
+            <div class="range-info">
+                <span>1</span>
+                <span>100</span>
+            </div>
+        </div>
+
+        <div class="section" id="listSection" style="display:none;">
+            <label>Generated Passwords <span class="badge" id="listCount">0</span></label>
+            <div class="output-list" id="outputList"></div>
+            <div class="row" style="margin-top: 8px;">
+                <button class="btn-copy" onclick="copyAll()">📋 Copy All</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-row">
+                <span class="label">Entropy:</span>
+                <span class="value" id="entropy">— bits</span>
+            </div>
+            <div class="stat-row">
+                <span class="label">Combinations:</span>
+                <span class="value" id="combinations">—</span>
+            </div>
+            <div class="stat-row">
+                <span class="label">Crack Time:</span>
+                <span class="value" id="crackTime">—</span>
+            </div>
+            <div class="stat-row">
+                <span class="label">Leak Check:</span>
+                <span class="value" id="pwnedCheck">—</span>
+            </div>
+            <div class="strength-bar">
+                <div class="strength-fill" id="strengthFill"></div>
+            </div>
+            <div class="strength-label" id="strengthLabel">—</div>
+        </div>
+
+        <div class="warning-box" id="warningBox"></div>
+
+        <span class="log-toggle" onclick="toggleLog()">Show Log</span>
+        <div class="log-panel" id="logPanel"></div>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <!-- Scripts -->
+
+</body>
+
+</html>
